@@ -22,7 +22,7 @@ class HOMA(nn.Module):
         
         self.fuse = nn.Sequential(
             nn.Linear(rank * len(orders), out_dim),
-            nn.ReLU(inplace=True)
+            nn.Mish(inplace=True)
         )
         
         # Pre-register buffer for random tensor in order 3
