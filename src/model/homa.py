@@ -142,14 +142,17 @@ class _HOMANet(nn.Module):
 
 
 def HOMA_Small(num_classes=1000):
+    """ About 15M parameters """
     return _HOMANet([(128, 2), (256, 2), (512, 2)], num_classes, gate_kws=dict(out_dim=128, rank=32))
 
 
 def HOMA_Base(num_classes=1000):
+    """ About 30M parameters """
     return _HOMANet([(128, 3), (256, 3), (512, 3)], num_classes, gate_kws=dict(out_dim=256, rank=64))
 
 
 def HOMA_Large(num_classes=1000):
+    """ About 60M parameters """
     return _HOMANet([(128, 3), (256, 4), (512, 6)], num_classes, gate_kws=dict(out_dim=512, rank=64))
 
 

@@ -7,13 +7,13 @@ model:
   
   # Custom model specific parameters (for HOMA)
   homa:
-    size: 'base'  # Options: 'small', 'base', 'large'
+    size: 'small'  # Options: 'small', 'base', 'large'
 
 # Dataset Configuration
 dataset:
   name: 'cub200'  # Options: 'cub200', 'soylocal'
   root: './data'
-  batch_size: 32
+  batch_size: 128
   num_workers: 4
   download: true
 
