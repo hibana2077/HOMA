@@ -67,7 +67,8 @@ class HOMABlock(nn.Module):
                 cumul4 = (x_norm ** 2).mean(dim=(-1, -2)) - 3 * (x_mean.squeeze(-1).squeeze(-1) ** 2)
                 feats.append(self.proj["4"](cumul4))
 
-        return self.fuse(torch.cat(feats, dim=-1))
+        # return self.fuse(torch.cat(feats, dim=-1))
+        return self.fuse(F.layer_norm(torch.cat(feats, dim=-1), normalized_shape=feats[0].size(-1)))
 
 
 class ConvBNAct(nn.Sequential):
