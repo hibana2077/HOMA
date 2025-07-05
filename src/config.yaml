@@ -53,7 +53,7 @@ loss:
 
 # Optimizer Configuration
 optimizer:
-  name: 'adamw'  # Options: 'sgd', 'adam', 'adamw'
+  name: 'sgd'  # Options: 'sgd', 'adam', 'adamw'
   
   # Optimizer specific parameters
   sgd:

@@ -159,7 +159,7 @@ def train_epoch(model, train_loader, criterion, optimizer, device, scaler, confi
             output = model(data)
             loss = criterion(output, target)
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)  # Gradient clipping
+            # torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)  # Gradient clipping
             optimizer.step()
         
         # Calculate accuracy
