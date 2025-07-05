@@ -67,12 +67,12 @@ def get_model(config):
 def get_optimizer(model, config):
     """Get optimizer based on configuration"""
     opt_name = config['optimizer']['name'].lower()
-    lr = config['training']['learning_rate']
-    weight_decay = config['training']['weight_decay']
+    lr = float(config['training']['learning_rate'])
+    weight_decay = float(config['training']['weight_decay'])
     
     if opt_name == 'sgd':
         params = config['optimizer'].get('sgd', {})
-        momentum = params.get('momentum', 0.9)
+        momentum = float(params.get('momentum', 0.9))
         nesterov = params.get('nesterov', True)
         optimizer = optim.SGD(
             model.parameters(),
@@ -84,7 +84,7 @@ def get_optimizer(model, config):
     elif opt_name == 'adam':
         params = config['optimizer'].get('adam', {})
         betas = params.get('betas', [0.9, 0.999])
-        eps = params.get('eps', 1e-08)
+        eps = float(params.get('eps', 1e-08))
         optimizer = optim.Adam(
             model.parameters(),
             lr=lr,
@@ -95,7 +95,7 @@ def get_optimizer(model, config):
     elif opt_name == 'adamw':
         params = config['optimizer'].get('adamw', {})
         betas = params.get('betas', [0.9, 0.999])
-        eps = params.get('eps', 1e-08)
+        eps = float(params.get('eps', 1e-08))
         optimizer = optim.AdamW(
             model.parameters(),
             lr=lr,
