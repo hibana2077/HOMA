@@ -39,6 +39,7 @@ class HOMABlock(nn.Module):
 
         proj_dims = {2: in_ch ** 2, 3: in_ch, 4: in_ch}
         self.proj = nn.ModuleDict({str(k): nn.Linear(proj_dims[k], rank, bias=False) for k in orders})
+        self.early_fuse_layer_norm = nn.LayerNorm(rank * len(orders), elementwise_affine=False)
         self.fuse = nn.Sequential(nn.Linear(rank * len(orders), out_dim), nn.Mish(inplace=True))
 
         if 3 in orders:
@@ -68,7 +69,7 @@ class HOMABlock(nn.Module):
                 feats.append(self.proj["4"](cumul4))
 
         # return self.fuse(torch.cat(feats, dim=-1))
-        return self.fuse(F.layer_norm(torch.cat(feats, dim=-1), normalized_shape=feats[0].size(-1)))
+        return self.fuse(self.early_fuse_layer_norm(torch.cat(feats, dim=-1)))  # normalise output to stabilise magnitude
 
 
 class ConvBNAct(nn.Sequential):
