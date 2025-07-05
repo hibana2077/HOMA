@@ -102,9 +102,6 @@ def get_transforms(model_name: str, pretrained: bool = True, input_size: int = 2
     
     train_transform = transforms.Compose([
         transforms.Resize((input_size, input_size)),
-        transforms.RandomHorizontalFlip(p=0.5),
-        transforms.RandomRotation(15),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
         transforms.ToTensor(),
         normalize
     ])
