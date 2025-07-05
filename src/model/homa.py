@@ -85,7 +85,7 @@ class HOMAChannelGate(nn.Module):
         super().__init__()
         self.homa = HOMABlock(in_ch, out_dim, rank, orders)
         self.fc = nn.Sequential(
-            nn.Linear(out_dim, max(in_ch // reduction, 4)), nn.Mish(inplace=True), nn.Linear(max(in_ch // reduction, 4), in_ch), nn.Sigmoid()
+            nn.Linear(out_dim, max(in_ch // reduction, 4)), nn.Mish(inplace=True), nn.Linear(max(in_ch // reduction, 4), in_ch), nn.ReLU()
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
