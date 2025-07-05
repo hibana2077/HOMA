@@ -41,7 +41,7 @@ training:
 
 # Loss Configuration
 loss:
-  name: 'crossentropy'  # Options: 'crossentropy', 'focal', 'label_smoothing'
+  name: 'focal'  # Options: 'crossentropy', 'focal', 'label_smoothing'
   
   # Loss specific parameters
   focal:
