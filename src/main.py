@@ -24,7 +24,7 @@ from utils.misc import (
     create_data_loaders, log_metrics, AverageMeter, EarlyStopping
 )
 from utils.loss import get_loss_function
-from model.homa import HOMA
+from model.homa import HOMA_Base, HOMA_Large, HOMA_Small
 
 def get_model(config):
     """Get model based on configuration"""
@@ -34,23 +34,16 @@ def get_model(config):
     
     if model_name == 'homa':
         # Use custom HOMA model
-        homa_config = config['model']['homa']
-        model = HOMA(
-            in_ch=homa_config['in_ch'],
-            out_dim=homa_config['out_dim'],
-            rank=homa_config['rank'],
-            orders=tuple(homa_config['orders'])
-        )
-        # Add final classification layer
-        model.classifier = nn.Linear(homa_config['out_dim'], num_classes)
-        
-        # Modify forward method to include classifier
-        original_forward = model.forward
-        def new_forward(x):
-            features = original_forward(x)
-            return model.classifier(features)
-        model.forward = new_forward
-        
+        homa_config = config['model']['homa']['size'].lower()
+        if homa_config == 'small':
+            model = HOMA_Small(num_classes=num_classes)
+        elif homa_config == 'base':
+            model = HOMA_Base(num_classes=num_classes)
+        elif homa_config == 'large':
+            model = HOMA_Large(num_classes=num_classes)
+        else:
+            raise ValueError(f"Unknown HOMA model size: {homa_config}")
+
     else:
         # Use timm model
         if model_name in timm.list_models():

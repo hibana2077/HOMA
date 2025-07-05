@@ -7,10 +7,7 @@ model:
   
   # Custom model specific parameters (for HOMA)
   homa:
-    in_ch: 3
-    out_dim: 2048
-    rank: 64
-    orders: [2, 3, 4]
+    size: 'base'  # Options: 'small', 'base', 'large'
 
 # Dataset Configuration
 dataset:
