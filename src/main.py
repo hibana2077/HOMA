@@ -12,8 +12,11 @@ import timm
 import warnings
 warnings.filterwarnings('ignore')
 
-# Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__)))
+# Setup paths for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, current_dir)
+sys.path.insert(0, parent_dir)
 
 from utils.misc import (
     set_seed, load_config, create_output_dir, save_checkpoint, 
@@ -226,9 +229,24 @@ def validate_epoch(model, val_loader, criterion, device, config):
 
 def main():
     parser = argparse.ArgumentParser(description='Train model with HOMA or timm models')
-    parser.add_argument('--config', type=str, default='src/config.yaml', help='Path to config file')
+    parser.add_argument('--config', type=str, default='config.yaml', help='Path to config file')
     parser.add_argument('--resume', type=str, default=None, help='Path to checkpoint to resume from')
     args = parser.parse_args()
+    
+    # If config file doesn't exist, try alternative locations
+    if not os.path.exists(args.config):
+        alternative_paths = [
+            os.path.join('src', 'config.yaml'),
+            os.path.join(os.path.dirname(__file__), 'config.yaml'),
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.yaml')
+        ]
+        
+        for alt_path in alternative_paths:
+            if os.path.exists(alt_path):
+                args.config = alt_path
+                break
+        else:
+            raise FileNotFoundError(f"Config file not found: {args.config}")
     
     # Load configuration
     config = load_config(args.config)

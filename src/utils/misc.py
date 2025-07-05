@@ -1,4 +1,5 @@
 import os
+import sys
 import torch
 import random
 import numpy as np
@@ -156,12 +157,18 @@ def create_data_loaders(dataset_name: str, data_root: str, batch_size: int,
     """
     dataset_name = dataset_name.lower()
     
+    # Setup import paths
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    src_dir = os.path.dirname(current_dir)
+    if src_dir not in sys.path:
+        sys.path.insert(0, src_dir)
+    
     if dataset_name == 'cub200':
-        from src.dataset.CUB200 import CUB200Dataset
+        from dataset.CUB200 import CUB200Dataset
         train_dataset = CUB200Dataset(root=data_root, train=True, transform=train_transform, download=True)
         test_dataset = CUB200Dataset(root=data_root, train=False, transform=test_transform, download=True)
     elif dataset_name == 'soylocal':
-        from src.dataset.SoyLocal import SoyLocalDataset
+        from dataset.SoyLocal import SoyLocalDataset
         train_dataset = SoyLocalDataset(root=data_root, split='train', transform=train_transform, download=True)
         test_dataset = SoyLocalDataset(root=data_root, split='test', transform=test_transform, download=True)
     else:

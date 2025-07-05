@@ -1,0 +1,98 @@
+# Training Configuration
+model:
+  name: 'homa'  # Options: 'homa', 'resnet50', 'efficientnet_b0', 'vit_base_patch16_224', etc.
+  pretrained: false
+  num_classes: 200  # Will be automatically set based on dataset
+  input_size: 224
+  
+  # Custom model specific parameters (for HOMA)
+  homa:
+    in_ch: 3
+    out_dim: 2048
+    rank: 64
+    orders: [2, 3, 4]
+
+# Dataset Configuration
+dataset:
+  name: 'cub200'  # Options: 'cub200', 'soylocal'
+  root: './data'
+  batch_size: 32
+  num_workers: 4
+  download: true
+
+# Training Configuration
+training:
+  epochs: 100
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  momentum: 0.9
+  scheduler: 'cosine'  # Options: 'cosine', 'step', 'plateau'
+  
+  # Scheduler specific parameters
+  scheduler_params:
+    step:
+      step_size: 30
+      gamma: 0.1
+    plateau:
+      mode: 'max'
+      factor: 0.5
+      patience: 10
+      threshold: 0.01
+    cosine:
+      T_max: 100
+      eta_min: 0.00001
+
+# Loss Configuration
+loss:
+  name: 'crossentropy'  # Options: 'crossentropy', 'focal', 'label_smoothing'
+  
+  # Loss specific parameters
+  focal:
+    alpha: 1.0
+    gamma: 2.0
+  
+  label_smoothing:
+    smoothing: 0.1
+
+# Optimizer Configuration
+optimizer:
+  name: 'adamw'  # Options: 'sgd', 'adam', 'adamw'
+  
+  # Optimizer specific parameters
+  sgd:
+    momentum: 0.9
+    nesterov: true
+  
+  adam:
+    betas: [0.9, 0.999]
+    eps: 1e-08
+  
+  adamw:
+    betas: [0.9, 0.999]
+    eps: 1e-08
+
+# Output Configuration
+output:
+  save_dir: './results'
+  exp_name: 'homa_experiment'
+  save_checkpoint: false  # Set to true to save checkpoints during training
+  save_best_only: true
+  log_interval: 10  # Log every N batches
+
+# System Configuration
+system:
+  device: 'auto'  # Options: 'auto', 'cpu', 'cuda', 'cuda:0'
+  seed: 42
+  mixed_precision: true  # Use automatic mixed precision
+
+# Early Stopping Configuration
+early_stopping:
+  enabled: false
+  patience: 15
+  min_delta: 0.001
+  restore_best_weights: true
+
+# Validation Configuration
+validation:
+  enabled: true
+  interval: 1  # Validate every N epochs
