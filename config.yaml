@@ -1,6 +1,6 @@
 # Training Configuration
 model:
-  name: 'homa'  # Options: 'homa', 'resnet50', 'efficientnet_b0', 'vit_base_patch16_224', etc.
+  name: 'resnet50'  # Options: 'homa', 'resnet50', 'efficientnet_b0', 'vit_base_patch16_224', etc.
   pretrained: false
   num_classes: 200  # Will be automatically set based on dataset
   input_size: 224
