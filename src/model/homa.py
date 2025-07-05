@@ -87,7 +87,7 @@ class ConvBNAct(nn.Sequential):
         super().__init__(
             nn.Conv2d(in_ch, out_ch, kernel_size, stride, p, groups=groups, bias=False),
             nn.BatchNorm2d(out_ch),
-            nn.ReLU(inplace=True),
+            nn.Mish(inplace=True),
         )
 
 
@@ -106,9 +106,9 @@ class HOMAChannelGate(nn.Module):
         self.homa = HOMABlock(in_ch, out_dim, rank, orders)
         self.fc = nn.Sequential(
             nn.Linear(out_dim, max(in_ch // reduction, 4)),
-            nn.ReLU(inplace=True),
+            nn.Mish(inplace=True),
             nn.Linear(max(in_ch // reduction, 4), in_ch),
-            nn.Sigmoid(),
+            nn.Mish(),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
