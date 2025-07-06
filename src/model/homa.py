@@ -132,7 +132,7 @@ class HOMAChannelGate(nn.Module):
 class HomaPatchEmbed(PatchEmbed):
     """Patch embedding + channel gate.
 
-    After TinyViT’s two stride‑2 convolutions, apply a HOMA‑driven channel gate
+    After TinyViT's two stride-2 convolutions, apply a HOMA-driven channel gate
     to adaptively modulate patch features before they enter the transformer.
     """
 
