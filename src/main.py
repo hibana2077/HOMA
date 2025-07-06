@@ -24,7 +24,7 @@ from utils.misc import (
     create_data_loaders, log_metrics, AverageMeter, EarlyStopping
 )
 from utils.loss import get_loss_function
-from model.homa import HOMA_Base, HOMA_Large, HOMA_Small
+from model.homa import homa_tiny_vit_11m_224, homa_tiny_vit_21m_224, homa_tiny_vit_5m_224
 
 def get_model(config):
     """Get model based on configuration"""
@@ -36,11 +36,11 @@ def get_model(config):
         # Use custom HOMA model
         homa_config = config['model']['homa']['size'].lower()
         if homa_config == 'small':
-            model = HOMA_Small(num_classes=num_classes)
+            model = homa_tiny_vit_5m_224(num_classes=num_classes)
         elif homa_config == 'base':
-            model = HOMA_Base(num_classes=num_classes)
+            model = homa_tiny_vit_11m_224(num_classes=num_classes)
         elif homa_config == 'large':
-            model = HOMA_Large(num_classes=num_classes)
+            model = homa_tiny_vit_21m_224(num_classes=num_classes)
         else:
             raise ValueError(f"Unknown HOMA model size: {homa_config}")
 
